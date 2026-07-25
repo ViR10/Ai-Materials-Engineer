@@ -24,7 +24,7 @@ python material_database.py
 ```
 
 ### Files
-- `material_database.py` — main program
+- `materials_database.py` — main program
 - `materials_data.txt` — saved data (auto-generated)
 
 ### Next Steps
