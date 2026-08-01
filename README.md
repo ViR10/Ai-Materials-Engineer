@@ -68,5 +68,46 @@ python mechanical_properties_analyzer.py
 
 ---
 
+## Day 3: Pandas for Materials Data
+
+### What I Learned
+- DataFrames — labeled, structured tables (vs. NumPy's plain numeric arrays)
+- Dataset inspection: `.head()`, `.shape()`, `.info()`, `.describe()`
+- Column and row selection, including boolean filtering
+- Missing value detection and handling (`isnull()`, `fillna()`, `dropna()`)
+- Merge vs. Concatenate — joining tables on a common key vs. stacking tables with matching columns
+- GroupBy aggregation — category-wise statistics (mean, max, min, count) in a single line
+- Cleaning real-world messy data: values embedded as text (e.g. "269 HRB"), category
+  labels embedded as data rows instead of columns, and file encoding issues
+
+### Project: Steel Grade Comparator
+A command-line tool built on real SAE grade reference data for Carbon Steel and
+Stainless Steel (Ferritic, Martensitic, Austenitic).
+
+Features:
+- Combines two real datasets with matching columns using `pd.concat()`
+- Extracts hidden sub-category labels from the Stainless Steel file using forward-fill
+- Cleans mixed text/number values (e.g. "269 HRB" → 269) using regex extraction
+- Category-wise statistics on Ultimate Tensile Strength (UTS)
+- Identifies the best and worst performing grade in each category
+- Generates a Quality Control (QC) pass/fail report against a strength threshold
+
+Result sanity check: Martensitic Stainless Steel showed the highest average UTS
+(consistent with it being heat-treatable for strength), while Ferritic Stainless
+showed the lowest (consistent with it being valued for ductility and corrosion
+resistance rather than peak strength) — confirming the cleaned data produced
+metallurgically sensible results.
+
+### How to Run
+```bash
+python steel_grade_comparator.py
+```
+
+### Files
+- `steel_grade_comparator.py` — main program
+- `Carbon Steel.csv`, `Stainless Steel.csv` — source data (SAE grade reference tables)
+
+---
+
 ## Next Steps
-Day 3: Pandas — structured, labeled datasets for cleaning and analyzing materials data.
+Day 4: Matplotlib — visualizing materials data instead of just printing tables.
