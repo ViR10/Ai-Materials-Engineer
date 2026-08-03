@@ -109,5 +109,35 @@ python steel_grade_comparator.py
 
 ---
 
+## Day 4: Matplotlib for Materials Data Visualization
+
+### What I Learned
+- Line Plots — visualizing trends between two continuous, ordered variables
+  (e.g. Carbon % vs Hardness)
+- Bar Charts — comparing values across categories (e.g. average UTS by steel category)
+- Scatter Plots — checking whether two properties are related (e.g. Hardness vs UTS),
+  and the distinction between correlation and causation
+- Histograms — visualizing the distribution of a single variable (e.g. spread of UTS
+  values across many samples)
+- Subplots — arranging multiple charts in a single figure/grid for a dashboard-style view
+
+### Project: Materials Visualization Dashboard
+A 2x2 dashboard built on the same real Carbon Steel + Stainless Steel dataset from Day 3:
+- Bar Chart — average UTS by category (Carbon Steel, Ferritic, Martensitic, Austenitic)
+- Scatter Plot — Hardness vs UTS across all samples, to check the relationship
+- Histogram — distribution of UTS values across all samples
+- Line Plot — Carbon Steel only: average Carbon content (%) vs Hardness
+
+### How to Run
+```bash
+python materials_visualization_dashboard.py
+```
+
+### Files
+- `materials_visualization_dashboard.py` — main program
+- `materials_dashboard.png` — output chart (auto-generated)
+
+---
+
 ## Next Steps
-Day 4: Matplotlib — visualizing materials data instead of just printing tables.
+Day 5: Machine Learning basics (Scikit-learn) — moving from analyzing data to predicting materials properties.
