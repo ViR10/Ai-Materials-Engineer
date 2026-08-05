@@ -139,5 +139,46 @@ python materials_visualization_dashboard.py
 
 ---
 
+## Day 5: Machine Learning Basics (Scikit-learn)
+
+### What I Learned
+- Features (X) vs Target (y) — framing a materials problem in ML terms
+- Train/Test Split — why a model must be evaluated on unseen data to avoid overfitting
+- Linear Regression — fitting a best-fit line/plane and interpreting slope (`coef_`)
+  and intercept
+- Evaluation Metrics — R² Score (variation explained) and MAE (average error in real units),
+  and why both are needed together
+- Random Forest Regressor — ensemble learning with decision trees, and when it outperforms
+  Linear Regression (complex, non-linear relationships)
+- Feature Importance — identifying which inputs actually drive the prediction
+- Multicollinearity — the risk of using two features that carry the same information
+
+### Project: Fatigue Property Predictor
+A model comparison tool built on the real NIMS Steel Fatigue Database (437 samples),
+predicting Fatigue Strength from composition (C, Si, Mn, P, S, Ni, Cr, Cu, Mo) and heat
+treatment parameters (Normalizing, Carburizing, Diffusion, Quenching, Tempering).
+
+Features:
+- Trains and compares two models: Linear Regression and Random Forest Regressor
+- Evaluates both using R² Score and MAE
+- Reports the top 5 most important features driving the prediction
+
+Results: Linear Regression achieved R² = 0.973 (MAE = 24.93 MPa); Random Forest achieved
+R² = 0.986 (MAE = 18.80 MPa), confirming Random Forest as the stronger model. The top
+predictive features were Normalizing Temperature, Carburizing Temperature, Quenching
+Media Temperature, Chromium %, and Carburizing Time — showing that heat treatment
+parameters influenced Fatigue Strength more than raw composition in this dataset.
+
+### How to Run
+```bash
+python fatigue_property_predictor.py
+```
+
+### Files
+- `fatigue_property_predictor.py` — main program
+- `fatigue.csv` — source data (NIMS Steel Fatigue Database)
+
+---
+
 ## Next Steps
-Day 5: Machine Learning basics (Scikit-learn) — moving from analyzing data to predicting materials properties.
+Day 6: Feature Engineering — scaling, encoding, cross-validation, and improving model reliability.
