@@ -180,5 +180,59 @@ python fatigue_property_predictor.py
 
 ---
 
+## Day 6: Feature Engineering
+
+### What I Learned
+- Scaling/Normalization (`StandardScaler`) — why features on different scales can bias
+  some models, and the difference between `fit_transform()` (training data only) and
+  `transform()` (test data)
+- Encoding categorical variables — Label Encoding vs One-Hot Encoding, and when a category's
+  natural order (Low/Medium/High) makes Label Encoding the better choice instead of the
+  usual default
+- Cross-Validation (K-Fold) — why a single train/test split can be misleading, and how
+  averaging performance across multiple folds gives a more trustworthy estimate
+- GroupKFold — preventing leakage when multiple samples share the same underlying group
+  (e.g. same composition, different heat treatments)
+- Feature Selection — using Random Forest feature importance to test whether a smaller
+  set of features can match full-feature performance
+- Data Leakage (in depth) — Scaling Leakage, Group Leakage, Distribution Mismatch
+  (unshuffled cross-validation on sorted data), and Target Leakage
+
+### Project: Material Property Predictor v2
+An upgraded version of the Day 5 project, built on the same real NIMS Steel Fatigue
+Database, adding Cross-Validation and Feature Selection.
+
+Two real issues were found and fixed while building this:
+1. On a small toy dataset, Random Forest produced negative R² scores under 5-fold CV —
+   demonstrating that cross-validation exposes model unreliability that a single lucky
+   train/test split can hide.
+2. On the real fatigue dataset, default `cv=5` (unshuffled) produced catastrophic negative
+   R² scores because the data was sorted by fatigue strength — each fold ended up testing
+   on a strength range the model had never seen in training. Fixed using
+   `KFold(shuffle=True)`.
+
+Results (5-fold cross-validated, shuffled):
+- All 19 features: Random Forest R² = 0.977 (Std = 0.007), Linear Regression R² = 0.962
+- Top 5 features only: Random Forest R² = 0.927, Linear Regression R² = 0.814
+
+Using only the top 5 features (26% of the original feature set) traded some accuracy for
+simplicity — a reminder that feature selection does not always improve performance, but
+gives an honest, reliable comparison instead of relying on one split.
+
+### How to Run
+```bash
+python material_property_predictor_v2.py
+```
+
+### Files
+- `material_property_predictor_v2.py` — main program
+- `fatigue.csv` — source data (NIMS Steel Fatigue Database)
+
+### Research Referenced
+- Kapoor & Narayanan (2023), "Leakage and the reproducibility crisis in machine-learning-based science", *Patterns*
+
+---
+
 ## Next Steps
-Day 6: Feature Engineering — scaling, encoding, cross-validation, and improving model reliability.
+Day 7: Final Integration Project — combining Python, NumPy, Pandas, Matplotlib, and
+Machine Learning into one complete, portfolio-ready Materials Informatics application.
