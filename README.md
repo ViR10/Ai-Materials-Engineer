@@ -233,6 +233,78 @@ python material_property_predictor_v2.py
 
 ---
 
+## Day 7: Week 1 Capstone — Unified AI Materials Property Predictor
+
+### What I Built
+A single Streamlit application that combines every concept from Week 1 into one
+general-purpose tool that works with **any** materials CSV dataset, not just the ones
+used during the week. Full technical details are in [`docs/PROJECT_DOCUMENTATION.md`](docs/PROJECT_DOCUMENTATION.md).
+
+The app has three tabs:
+
+1. **Analyze & Recommend** — upload a CSV, choose a target and feature columns, and the
+   app automatically cleans the data (including edge cases like columns that are 100%
+   missing), checks for Target Leakage and high-cardinality categorical columns, runs
+   shuffled cross-validation across three models (Linear Regression, Random Forest,
+   Gradient Boosting), and recommends the best one based on cross-validated R².
+2. **Train in Colab** — generates a ready-to-paste Google Colab script, customized to
+   the exact dataset and settings chosen in Tab 1, with step-by-step instructions. This
+   separates heavy model training from lightweight deployment.
+3. **Predict** — loads a model trained via the Colab script and makes instant
+   predictions, either for a single sample or a batch CSV, without retraining.
+
+### Real Bugs Found and Fixed While Building This
+- **Entirely-missing columns crashed Linear Regression.** On a real Stainless Steel
+  dataset, two composition columns (`P (Min)`, `S (Min)`) were 100% missing because
+  those elements are only capped (Max), never floored (Min), in the spec sheets used to
+  build the dataset. Taking the mean of an empty column returns `NaN`, so
+  `fillna(mean)` silently did nothing, and the model crashed on `NaN` input. Fixed by
+  detecting and dropping columns that are entirely missing before training.
+- **Target Leakage found in the same dataset.** `UTS (Ksi)` turned out to be a direct
+  unit conversion of `UTS (MPa)` (correlation ≈ 1.0) — including it as a feature let
+  the model "predict" UTS by looking at UTS in another unit. Added automatic detection
+  that flags any feature with >0.98 correlation to the target.
+
+### v2 Improvements (After a Deliberate Limitations Review)
+Before pushing, the v1 tool was reviewed for weaknesses and upgraded:
+- Added Gradient Boosting as a third model option
+- The headline R²/MAE now comes from cross-validation, not a single train/test split
+  (the earlier version reported a single-split metric, which is exactly the unreliable
+  practice Day 6 warned against)
+- Imputation strategy choice: Mean or Median (Median is more robust to outliers)
+- Encoding strategy choice: One-Hot (safe default) or Label Encoding (only appropriate
+  when categories have a genuine order)
+- Warnings for small datasets (<30 samples) and high-cardinality categorical columns,
+  both of which can silently produce unreliable results
+
+See [`docs/PROJECT_DOCUMENTATION.md`](docs/PROJECT_DOCUMENTATION.md) for the full list
+of benefits and remaining limitations.
+
+### How to Run
+```bash
+streamlit run app.py
+```
+
+### Files
+- `app.py` — the complete application (all three tabs)
+- `requirements.txt` — dependencies
+- `docs/PROJECT_DOCUMENTATION.md` — detailed technical documentation
+
+---
+
+## Week 1 Summary
+
+| Day | Topic | Key Deliverable |
+|---|---|---|
+| 1 | Python Fundamentals | Material Database (OOP, file handling) |
+| 2 | NumPy | Mechanical Properties Analyzer |
+| 3 | Pandas | Steel Grade Comparator (real data, messy-data cleaning) |
+| 4 | Matplotlib | Materials Visualization Dashboard |
+| 5 | Machine Learning | Fatigue Property Predictor (Linear Regression vs Random Forest) |
+| 6 | Feature Engineering | Property Predictor v2 (Cross-Validation, Feature Selection, Data Leakage) |
+| 7 | Capstone | Unified AI Materials Property Predictor (Streamlit, any dataset, Colab training, inference) |
+
 ## Next Steps
-Day 7: Final Integration Project — combining Python, NumPy, Pandas, Matplotlib, and
-Machine Learning into one complete, portfolio-ready Materials Informatics application.
+Week 2: Deeper Materials Informatics — descriptor generation (matminer/pymatgen),
+more advanced models, and expanding this capstone tool with the remaining items in
+the limitations list.
