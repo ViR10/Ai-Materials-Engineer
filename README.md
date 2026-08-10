@@ -303,6 +303,26 @@ streamlit run app.py
 | 5 | Machine Learning | Fatigue Property Predictor (Linear Regression vs Random Forest) |
 | 6 | Feature Engineering | Property Predictor v2 (Cross-Validation, Feature Selection, Data Leakage) |
 | 7 | Capstone | Unified AI Materials Property Predictor (Streamlit, any dataset, Colab training, inference) |
+| 8 | Materials Informatics | Introduction notebook for data-driven materials workflows |
+
+## Day 8: Introduction to Materials Informatics
+
+### What I Learned
+- How materials informatics connects materials science with data science and machine learning
+- The end-to-end workflow: data loading, cleaning, preprocessing, feature engineering,
+  exploratory analysis, and model training
+- How to turn a materials dataset into a simple predictive workflow that can be expanded
+  into larger research projects
+
+### Notebook
+A new notebook introduces the Day 8 workflow with practical examples using the workspace
+materials datasets:
+- [01_day_8_introduction_to_materials_informatics.ipynb](01_day_8_introduction_to_materials_informatics.ipynb) — introduction to materials informatics workflow
+
+### How to Run
+```bash
+jupyter notebook 01_day_8_introduction_to_materials_informatics.ipynb
+```
 
 ## Next Steps
 Week 2: Deeper Materials Informatics — descriptor generation (matminer/pymatgen),
